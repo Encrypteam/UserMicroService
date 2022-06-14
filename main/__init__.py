@@ -16,8 +16,9 @@ def create_app():
         'DATABASE_NAME')
     db.init_app(app)
     from main.resources import home
+    from main.resources import users
 
     app.register_blueprint(home, url_prefix='/api/v1')
-    app.register_blueprint(user, url_prefix='/api/v1/users')
+    app.register_blueprint(users, url_prefix='/api/v1/users')
     return app
 

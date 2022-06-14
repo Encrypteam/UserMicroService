@@ -1,1 +1,1 @@
-from user_map import UserSchema
+from .user_map import UserSchema
