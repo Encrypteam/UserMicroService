@@ -18,4 +18,6 @@ def create_app():
     from main.resources import home
 
     app.register_blueprint(home, url_prefix='/api/v1')
+    app.register_blueprint(user, url_prefix='/api/v1/users')
     return app
+
