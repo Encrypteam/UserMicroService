@@ -1,6 +1,7 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from main.services import UserService
 from main.map import UserSchema
+
 
 
 users = Blueprint('users', __name__)
@@ -30,7 +31,8 @@ def find_by_id(id):
 @users.route('/all', methods=['GET'])
 def find_all():
     service = UserService()
-    return user_schema.dump(service.find_all())
+    print(user_schema.dump(service.find_all()))
+    return jsonify(user_schema.dump(service.find_all(), many=True)),200
 
 
 @users.route('/update', methods=['PUT'])

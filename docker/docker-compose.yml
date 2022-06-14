@@ -33,15 +33,5 @@ services:
       - red
     restart: always
 
-  encrypter:
-    container_name: encrypter-ms
-    image: encrypter-ms:dev
-    ports:
-        - "82:6000"
-    networks:
-      - red
-    restart: always
-
-
 networks:
   red:
