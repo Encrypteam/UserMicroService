@@ -2,8 +2,6 @@ from flask import Blueprint, request, jsonify
 from main.services import UserService
 from main.map import UserSchema
 
-
-
 users = Blueprint('users', __name__)
 
 user_schema = UserSchema()
@@ -19,7 +17,9 @@ def create():
 @users.route('/username/<username>', methods=['GET'])
 def find_by_username(username):
     service = UserService()
-    return user_schema.dump(service.find_by_username(username))
+    if service.find_by_username(username) is None:
+        return jsonify('User not found'), 404
+    return jsonify(user_schema.dump(service.find_by_username(username))), 200
 
 
 @users.route('/id/<id>', methods=['GET'])
@@ -32,7 +32,7 @@ def find_by_id(id):
 def find_all():
     service = UserService()
     print(user_schema.dump(service.find_all()))
-    return jsonify(user_schema.dump(service.find_all(), many=True)),200
+    return jsonify(user_schema.dump(service.find_all(), many=True)), 200
 
 
 @users.route('/update', methods=['PUT'])

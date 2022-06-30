@@ -4,6 +4,10 @@ from sqlalchemy.ext.hybrid import hybrid_property
 
 class User(db.Model):
     @property
+    def user_name(self):
+        return self._user_name
+
+    @property
     def key(self):
         return self._key
 

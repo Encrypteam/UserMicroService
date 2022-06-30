@@ -1,6 +1,7 @@
 import unittest
 from main import create_app, db
-
+import pymysql
+pymysql.install_as_MySQLdb()
 
 class ConnectionTestCase(unittest.TestCase):
 

@@ -2,6 +2,8 @@ import unittest
 from main import create_app, db
 from main.models import User
 from main.services.user_service import UserService
+import pymysql
+pymysql.install_as_MySQLdb()
 
 
 class TestUserService(unittest.TestCase):
@@ -15,7 +17,7 @@ class TestUserService(unittest.TestCase):
 
     def tearDown(self):
         db.session.remove()
-        db.drop_all()
+        # db.drop_all()
         self.app_context.pop()
 
     def test_user(self):
@@ -30,7 +32,7 @@ class TestUserService(unittest.TestCase):
         self.assertEqual(user.user_name, 'delfina')
         self.assertGreater(user.id, 0)
         self.assertEqual(user.email, 'delfina@gmail.com')
-        self.assertEqual(user.key, '_6abcdefghijklmnopqrstuvwxyz=')
+        self.assertEqual(user.key, '_6abcdefghfgsdfgijklmnopqrstuvwxyz=')
 
     def test_db_find_by_user(self):
         user = self.__create_user()
@@ -41,6 +43,6 @@ class TestUserService(unittest.TestCase):
     def __create_user(self):
         username = 'delfina'
         email = 'delfina@gmail.com'
-        key_encrypt = '_6abcdefghijklmnopqrstuvwxyz='
+        key_encrypt = '_6abcdefghfgsdfgijklmnopqrstuvwxyz='
         user = User(user_name=username, email=email, key=key_encrypt)
         return self.userService.create(user)
