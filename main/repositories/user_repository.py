@@ -1,6 +1,7 @@
 from .. import db
 from main.repositories import Create, Read, Update
 from main.models import User
+from sqlalchemy import exc
 
 
 class UserRepository(Create, Read, Update):
@@ -10,7 +11,10 @@ class UserRepository(Create, Read, Update):
 
     def create(self, model: db.Model) -> User:
         db.session.add(model)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except exc.IntegrityError as e:
+            db.session.rollback()
         return model
 
     def find_all(self):

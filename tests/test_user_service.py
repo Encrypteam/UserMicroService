@@ -29,20 +29,20 @@ class TestUserService(unittest.TestCase):
 
     def test_create_user(self):
         user = self.__create_user()
-        self.assertEqual(user.user_name, 'delfina')
+        self.assertEqual(user.user_name, 'juan')
         self.assertGreater(user.id, 0)
-        self.assertEqual(user.email, 'delfina@gmail.com')
-        self.assertEqual(user.key, '_6abcdefghfgsdfgijklmnopqrstuvwxyz=')
+        self.assertEqual(user.email, 'juan@gmail.com')
+        self.assertEqual(user.key, 'NWRmMTv3ZWUdY2RjNjA3NWY4NjQ2NmQyOGRkYlolMmM=')
 
     def test_db_find_by_user(self):
         user = self.__create_user()
         user = self.userService.find_by_username(user.user_name)
-        self.assertEqual(user.user_name, 'delfina')
+        self.assertEqual(user.user_name, 'juan')
         self.assertGreater(user.id, 0)
 
     def __create_user(self):
-        username = 'delfina'
-        email = 'delfina@gmail.com'
-        key_encrypt = '_6abcdefghfgsdfgijklmnopqrstuvwxyz='
+        username = 'juan'
+        email = 'juan@gmail.com'
+        key_encrypt = 'NWRmMTv3ZWUdY2RjNjA3NWY4NjQ2NmQyOGRkYlolMmM='
         user = User(user_name=username, email=email, key=key_encrypt)
         return self.userService.create(user)
