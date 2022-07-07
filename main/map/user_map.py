@@ -10,4 +10,4 @@ class UserSchema(Schema):
 
     @post_load
     def make_user(self, data, **kwargs):
-        return User(**data)
+        return User(**data, **kwargs)

@@ -2,8 +2,6 @@ import unittest
 from main import create_app, db
 from main.models import User
 from main.services.user_service import UserService
-import pymysql
-pymysql.install_as_MySQLdb()
 
 
 class TestUserService(unittest.TestCase):
