@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from main.services import UserService
 from main.map import UserSchema
+from main import metrics
 
 users = Blueprint('users', __name__)
 
@@ -13,7 +14,8 @@ def create():
     user = user_schema.load(request.get_json())
     return user_schema.dump(service.create(user))
 
-
+@metrics.counter('Users by name', 'Number of users by name',
+                 labels={'item': lambda: request.view_args['username']})
 @users.route('/username/<username>', methods=['GET'])
 def find_by_username(username):
     service = UserService()
@@ -31,7 +33,6 @@ def find_by_id(id):
 @users.route('/all', methods=['GET'])
 def find_all():
     service = UserService()
-    print(user_schema.dump(service.find_all()))
     return jsonify(user_schema.dump(service.find_all(), many=True)), 200
 
 
