@@ -5,6 +5,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_consulate import Consul
 import pymysql
 from prometheus_flask_exporter import PrometheusMetrics
+import logging
+import logstash
+logger = logging.getLogger("python-logstash-logger")
+logger.setLevel(logging.DEBUG)
+
+logger.addHandler(logstash.TCPLogstashHandler('127.0.0.1', 5059, version = 1))
 
 pymysql.install_as_MySQLdb()
 
@@ -21,20 +27,26 @@ def create_app():
     consul.register_service(
         name='user-ms',
         interval='10s',
-        tags=[''],
+        tags=['users'],
         httpcheck='https://users.encrypteam.localhost/healthcheck'
     )
-    consul.apply_remote_config(namespace='configuration/users/')
-    load_dotenv()
+    consul.apply_remote_config('configuration/users/')
+
+
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    """
+
+    '''
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + os.getenv('DATABASE_USER') + ':' + os.getenv(
         'DATABASE_PASSWORD') + '@' + os.getenv('DATABASE_URL') + ':' + os.getenv('DATABASE_PORT') + '/' + os.getenv(
         'DATABASE_NAME')
-    """
+    '''
+
+
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + app.config['users']['DATABASE_USER'] + ':' + app.config['users']['DATABASE_PASSWORD'] + '@' + app.config['users']['DATABASE_URL'] + ':' + app.config['users']['DATABASE_PORT'] + '/' + app.config['users']['DATABASE_NAME']
+
+    print("CONFIG DE CONSUL", app.config['users'])
 
     db.init_app(app)
     from main.resources import home

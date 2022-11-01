@@ -14,7 +14,7 @@ def create():
     user = user_schema.load(request.get_json())
     return user_schema.dump(service.create(user))
 
-@metrics.counter('Users by name', 'Number of users by name',
+@metrics.counter('Users_by_name', 'Number of users by name',
                  labels={'item': lambda: request.view_args['username']})
 @users.route('/username/<username>', methods=['GET'])
 def find_by_username(username):

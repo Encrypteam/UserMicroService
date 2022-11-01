@@ -11,3 +11,4 @@ consulate==0.6.0
 flask-consulate==0.2.0
 pymysql==1.0.2
 prometheus-flask-exporter==0.20.3
+python-logstash==0.4.8
